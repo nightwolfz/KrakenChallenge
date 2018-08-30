@@ -1,0 +1,15 @@
+# APP
+node_modules
+build/
+uploads/
+stats.json
+
+# Other
+*.log
+*.db
+.idea
+.DS_Store
+*.map
+.sass-cache/*
+.TemporaryItems/*
+.env
