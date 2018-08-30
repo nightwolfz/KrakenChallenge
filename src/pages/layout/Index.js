@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import {Switch} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import App from '../App'
+import Home from '../Home'
 
 //@TODO
 //import Header from './Header'
 //import Footer from './Footer'
-//import Home from '../Home'
 
 class Index extends Component {
   render() {
@@ -13,8 +13,7 @@ class Index extends Component {
       <div style={{ marginTop: '0.4rem' }}>
         <App>
           <Switch>
-            <p>Home test</p>
-            {/*<Route path="/" component={ Home } exact/>*/}
+            <Route path="/" component={ Home } exact/>
           </Switch>
         </App>
       </div>

@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <main className="container">
-        <p>test</p>
+        {this.props.children}
       </main>
     )
   }
