@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Header from './layout/Header'
-import Upload from './features/Upload'
+import Upload from '../components/Upload'
 import SearchBox from '../components/SearchBox'
 
 @connect(state => {

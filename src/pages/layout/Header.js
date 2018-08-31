@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import Upload from '../features/Upload'
+import Upload from '../../components/Upload'
 import SearchBox from '../../components/SearchBox'
 
 @connect()

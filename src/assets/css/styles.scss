@@ -163,6 +163,10 @@ h1 {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 $button-ask-bg: #247c32;
 $button-ask-bg-hover: lighten($button-ask-bg, 10%);
 $button-bid-bg: #ac0a29;
