@@ -1,20 +1,59 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import classnames from 'classnames'
+import {documentsRemove} from '../stores/documents/actions'
 
 @connect()
 class Document extends Component {
 
-  componentDidMount() {
+  state = {
+    active: false,
+  }
+
+  onClick = () => {
+    this.setState(state => {
+      return { active: !state.active }
+    })
+  }
+
+  onDelete = () => {
+    const {dispatch, data} = this.props
+
+    dispatch(documentsRemove(data.id))
+
+    this.setState(state => {
+      return { active: !state.active }
+    })
   }
 
   render() {
     const {data} = this.props
+    const {showSuccess} = this.state
+    const classModel = classnames('modal modal-sm', {
+      active: this.state.active,
+    })
+
     return (
-      <div className="document-item mr-2 mb-2">
-        <SvgDocumentIcon/>
-        <br/>
-        <b>{data.name}</b>
-      </div>
+      <>
+        <div className="document-item mr-2 mb-2" onClick={this.onClick}>
+          <SvgDocumentIcon/>
+          <br/>
+          <b>{data.name}</b>
+        </div>
+        <div className={classModel}>
+          <a className="modal-overlay" aria-label="Close" onClick={this.onClick}/>
+          <div className="modal-container">
+            <div className="modal-header">
+              <a onClick={this.onClick} className="btn btn-clear float-right" aria-label="Close"/>
+              <div className="modal-title h5">Do you want to delete this document?</div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-primary" onClick={this.onDelete}>Delete</button>
+              <a className="btn btn-link" onClick={this.onClick}>Close</a>
+            </div>
+          </div>
+        </div>
+      </>
     )
   }
 }

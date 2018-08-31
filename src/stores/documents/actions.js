@@ -1,5 +1,5 @@
 import request from 'core/request'
-import {DOCUMENTS_LIST, DOCUMENTS_ADD} from '../constants'
+import {DOCUMENTS_LIST, DOCUMENTS_ADD, DOCUMENTS_REMOVE} from '../constants'
 
 export function documentsList() {
   return async(dispatch) => {
@@ -16,6 +16,16 @@ export function documentsSearch(searchText) {
     const response = await request.get(`documents/search`, { searchText })
     dispatch({
       type: DOCUMENTS_LIST,
+      data: response,
+    })
+  }
+}
+
+export function documentsRemove(id) {
+  return async(dispatch) => {
+    const response = await request.get(`documents/remove`, { id })
+    dispatch({
+      type: DOCUMENTS_REMOVE,
       data: response,
     })
   }

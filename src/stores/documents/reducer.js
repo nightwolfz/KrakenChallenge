@@ -16,6 +16,7 @@ export function documents(state = initialState, { type, data }) {
       return state.filter(doc => doc.id !== data.id)
     }
 
+    //@TODO: If I have time, it's weekend and I'm missing out on the fun
     case DOCUMENTS_UPDATE: {
       return []
     }

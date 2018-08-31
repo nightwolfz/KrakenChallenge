@@ -58,10 +58,12 @@ class Upload extends Component {
       dispatch(documentsUpload(files[i], () => {
         this.setState({ showSuccess: true })
         setTimeout(() => {
-          // this.setState({
-          //   active: false,
-          //   showSuccess: false,
-          // })
+          this.setState({
+            active: false,
+            showSuccess: false,
+            uploads: [],
+            file: null,
+          })
         }, 1500)
       }))
     }

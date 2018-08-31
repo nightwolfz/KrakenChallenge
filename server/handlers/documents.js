@@ -32,19 +32,29 @@ export async function search(ctx) {
 
 export async function remove(ctx) {
   const { id } = ctx.request.query
-  const documentURI = path.join(config.http.uploads, id)
+  const document = await Document.findOne({ _id: id })
+
+  if (!document) {
+    console.warn('Document', id, 'not found')
+    ctx.body = { success: false }
+    return
+  }
+
+  const documentURI = document.docURI //path.join(config.http.uploads, id)
 
   try {
-    await Document.remove(id)
+    await Document.remove({ _id: document._id })
     await fs.unlink(documentURI)
-    ctx.body = { success: true }
+    ctx.body = { success: true, id }
   } catch(err) {
-    console.error('Error deleting', documentURI)
+    console.error('Error deleting', err)
     ctx.body = { success: false }
   }
 }
 
 export async function upload(ctx) {
+  // Making sure that the file is safe is a whole other can of worms
+  // That alone could take 48 hours, so we're going to skip it
   const file = ctx.request.files[0]
   const newName = path.basename(file.path) + path.extname(file.name)
   const newURI = path.join(config.http.uploads, newName)
