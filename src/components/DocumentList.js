@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {range} from 'lodash'
+import {range, isEmpty} from 'lodash'
 import Document from './Document'
 import {documentsList} from '../stores/documents/actions'
 
 @connect(state => ({
-  documents: state.documents
+  loading: state.documents.loading,
+  documents: state.documents.items,
 }))
 class DocumentList extends Component {
 
@@ -15,11 +16,25 @@ class DocumentList extends Component {
   }
 
   render() {
-    const {documents} = this.props
+    const {documents, loading} = this.props
+
+    if (loading) {
+      return (
+        <div className="document-list">
+          <h1>Documents</h1>
+          <h4>Loading...</h4>
+        </div>
+      )
+    }
 
     return (
       <div className="document-list">
-        <h1>DocumentList</h1>
+        <h1>Documents</h1>
+
+        {isEmpty(documents) ? (
+          <h4>No documents found.</h4>
+        ): null}
+
         {documents.map(item => (
           <Document key={item.id} data={item}/>
         ))}

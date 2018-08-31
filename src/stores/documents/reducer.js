@@ -1,19 +1,37 @@
-import {DOCUMENTS_LIST, DOCUMENTS_ADD, DOCUMENTS_REMOVE, DOCUMENTS_UPDATE} from '../constants'
+import {DOCUMENTS_LIST_RESPONSE, DOCUMENTS_ADD, DOCUMENTS_REMOVE, DOCUMENTS_UPDATE, DOCUMENTS_LIST_REQUEST} from '../constants'
 
-const initialState = []
+const initialState = {
+  loading: false,
+  items: [],
+}
 
 export function documents(state = initialState, { type, data }) {
   switch(type) {
-    case DOCUMENTS_LIST: {
-      return data
+    case DOCUMENTS_LIST_REQUEST: {
+      return {
+        loading: true,
+      }
+    }
+
+    case DOCUMENTS_LIST_RESPONSE: {
+      return {
+        loading: false,
+        items: data,
+      }
     }
 
     case DOCUMENTS_ADD: {
-      return [...state, data]
+      return {
+        loading: false,
+        items: [...state.items, data]
+      }
     }
 
     case DOCUMENTS_REMOVE: {
-      return state.filter(doc => doc.id !== data.id)
+      return {
+        loading: false,
+        items: state.items.filter(doc => doc.id !== data.id)
+      }
     }
 
     //@TODO: If I have time, it's weekend and I'm missing out on the fun
