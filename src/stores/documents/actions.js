@@ -27,7 +27,7 @@ export function documentsUpload(file) {
       const response = await request.upload(`documents/upload`, file)
       dispatch({
         type: DOCUMENTS_ADD,
-        data: response,
+        data: JSON.parse(response),
       })
     } catch(err) {
       console.error(err)

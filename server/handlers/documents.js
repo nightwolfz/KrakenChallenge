@@ -1,6 +1,7 @@
 //import request from 'core/request'
 import fs from 'fs-extra-promise'
 import path from 'path'
+import {omit} from 'lodash'
 import config from '../../core/config'
 import Document from '../models/Document'
 
@@ -44,25 +45,22 @@ export async function remove(ctx) {
 }
 
 export async function upload(ctx) {
-  for (const file of ctx.request.files) {
-    const newName = path.basename(file.path) + path.extname(file.name)
-    const newURI = path.join(config.http.uploads, newName)
+  const file = ctx.request.files[0]
+  const newName = path.basename(file.path) + path.extname(file.name)
+  const newURI = path.join(config.http.uploads, newName)
 
-    try {
-      await fs.copy(file.path, newURI)
-      const doc = new Document({
-        docURI: newURI,
-        name: file.name,
-        type: file.type,
-      })
-      await doc.save()
-      ctx.status = 201
-    } catch(err) {
-      console.error('Error moving file', documentURI)
-      ctx.body = { success: false }
-      return
-    }
+  try {
+    await fs.copy(file.path, newURI)
+    const doc = new Document({
+      docURI: newURI,
+      name: file.name,
+      type: file.type,
+    })
+    await doc.save()
+    ctx.status = 201
+    ctx.body = omit(doc.toJSON(), 'docURI')
+  } catch(err) {
+    console.error('Error moving file', documentURI)
+    ctx.body = { success: false }
   }
-  ctx.status = 201
-  ctx.body = { success: true }
 }
