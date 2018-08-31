@@ -22,4 +22,7 @@ export default {
     secret: 's#/m!t7ft~r7het#uf~my7y3zl14~ghorse',
     expires: 31 * 24 * 3600 // 1 month
   },
+  databases: {
+    mongo: 'mongodb://127.0.0.1:27017/krakenChallenge'
+  },
 }

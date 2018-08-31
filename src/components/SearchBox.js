@@ -3,9 +3,7 @@ import {connect} from 'react-redux'
 import {debounce} from 'lodash'
 import {documentsSearch} from '../stores/documents/actions'
 
-@connect(state => {
-  return {}
-})
+@connect()
 class SearchBox extends Component {
 
   state = {

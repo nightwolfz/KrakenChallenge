@@ -1,4 +1,8 @@
 //import request from 'core/request'
+import fs from 'fs'
+import path from 'path'
+import config from '../../core/config'
+import Document from '../models/Document'
 
 export async function list(ctx) {
   const { id } = ctx.request.query
@@ -24,10 +28,27 @@ export async function search(ctx) {
 
 export async function remove(ctx) {
   const { id } = ctx.request.query
-  ctx.body = { id }
+
+  const documentURI = path.join(config.http.uploads, id)
+  await Document.remove(id)
+
+  fs.unlink(image, function(err) {
+    if (err) return console.error('Error deleting', image)
+    console.info('Deleted', image)
+  })
+
+  ctx.body = { success: true }
 }
 
 export async function upload(ctx) {
-  const { file } = ctx.request.body
-  ctx.body = {}
+  const docs = []
+
+  for (const file of ctx.request.files) {
+    const docURI = await resize(file.path)
+    const doc = new Document({ docURI })
+    await doc.save()
+    docs.push(doc.toJSON())
+  }
+  ctx.status = 201
+  ctx.body = docs
 }
