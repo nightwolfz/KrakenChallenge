@@ -7,6 +7,7 @@ import favicon from 'koa-favicon'
 import convert from 'koa-convert'
 import bodyParser from 'koa-better-body'
 import {readFileSync} from 'fs'
+import routes from './routes'
 
 // Initialize server
 const app = new Koa()
@@ -28,6 +29,7 @@ app.use(convert(bodyParser({
 const indexHTML = readFileSync(config.http.indexHTML, 'utf8')
 
 // Routes
+app.use(routes.routes())
 app.use(async(ctx) => {
   ctx.body = indexHTML.replace(/{bundleURL}/g, config.server.bundleURL)
 })
