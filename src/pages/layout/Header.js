@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Upload from '../features/Upload'
-import SearchBox from '../../components/SearchBox/SearchBox'
+import SearchBox from '../../components/SearchBox'
 
 @connect()
 class Header extends Component {
