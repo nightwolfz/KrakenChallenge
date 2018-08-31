@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
 import IconUpload from './icons/IconUpload'
+import {documentsUpload} from '../stores/documents/actions'
 
 @connect()
 class Upload extends Component {
@@ -9,7 +10,6 @@ class Upload extends Component {
   state = {
     active: false,
     uploads: [],
-    preview: null,
     dragging: false,
     file: null,
   }
@@ -49,9 +49,12 @@ class Upload extends Component {
   }
 
   onUpload = async(files) => {
+    const {dispatch} = this.props
+
     // Maybe we should support multiple file uploads but seems overkill at this point
     for (let i = 0; i < files.length; i++) {
       console.warn('Uploaded', files[i].type)
+      dispatch(documentsUpload(files[i]))
     }
   }
 
@@ -69,7 +72,7 @@ class Upload extends Component {
     })
 
     return (
-      <div>
+      <>
         <button onClick={this.onClick} aria-label="Upload">Upload</button>
         <div className={classModel}>
           <a onClick={this.onClick} className="modal-overlay" aria-label="Close"/>
@@ -80,7 +83,6 @@ class Upload extends Component {
             </div>
             <div className="modal-body">
               <div className="content">
-
                 <div className={classnames('dropzone', this.state.dragging ? 'dropzone-dragging' : '')}>
                   <h2 className="no-events">Drag & Drop</h2>
 
@@ -99,15 +101,11 @@ class Upload extends Component {
                     </label>
                   </div>
                 </div>
-
               </div>
-            </div>
-            <div className="modal-footer">
-              ...
             </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 }

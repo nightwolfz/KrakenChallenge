@@ -1,5 +1,5 @@
 const fetch = require('isomorphic-fetch')
-const {size} = require('lodash')
+const {size, noop} = require('lodash')
 const qs = require('qs')
 
 /**
@@ -15,6 +15,28 @@ export default {
   async post(url, data, headers = {}) {
     return buildRequest('POST', url, data, { headers })
   },
+
+  upload(url, file, onProgress = noop) {
+    return new Promise(function(resolve, reject) {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const req = new XMLHttpRequest()
+      req.upload.addEventListener('progress', function(e) {
+        onProgress(e.loaded / e.total * 100 | 0)
+      })
+      req.addEventListener('load', function(result) {
+        console.log(result)
+        resolve(result.target.response)
+      })
+      req.addEventListener('error', error => {
+        console.error(error)
+        reject(error)
+      })
+      req.open('POST', url)
+      req.send(formData)
+    })
+  }
 }
 
 /**

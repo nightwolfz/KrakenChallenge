@@ -3,8 +3,8 @@ import { Schema } from 'mongoose'
 
 const schema = new Schema({
   docURI: { type: String, required: true },
-  desc: { type: String, default: '' },
-  type: { type: String, default: '' },
+  name: { type: String, default: '', required: true },
+  type: { type: String, default: '', required: true },
   uploadedAt: { type: Date, default: Date.now() }
 }, {
   minimize: false,

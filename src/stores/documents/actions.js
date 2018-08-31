@@ -21,12 +21,16 @@ export function documentsSearch(searchText) {
   }
 }
 
-export function documentsUpload() {
+export function documentsUpload(file) {
   return async(dispatch) => {
-    const response = await request.post(`documents/upload`)
-    dispatch({
-      type: DOCUMENTS_ADD,
-      data: response,
-    })
+    try {
+      const response = await request.upload(`documents/upload`, file)
+      dispatch({
+        type: DOCUMENTS_ADD,
+        data: response,
+      })
+    } catch(err) {
+      console.error(err)
+    }
   }
 }

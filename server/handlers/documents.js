@@ -1,54 +1,68 @@
 //import request from 'core/request'
-import fs from 'fs'
+import fs from 'fs-extra-promise'
 import path from 'path'
 import config from '../../core/config'
 import Document from '../models/Document'
 
 export async function list(ctx) {
   const { id } = ctx.request.query
-  ctx.body = [{
-    id: Math.random()*1000|0,
-    name: 'DocName',
-    timestamp: new Date()
-  }, {
-    id: Math.random()*1000|0,
-    name: 'DocName2',
-    timestamp: new Date()
-  }]
+  const documents = await Document.find({})
+
+  ctx.body = documents
 }
 
 export async function search(ctx) {
-  const { searchText } = ctx.request.query
-  ctx.body = [{
-    id: Math.random()*1000|0,
-    name: searchText,
-    timestamp: new Date()
-  }]
+  const { searchText, type } = ctx.request.query
+  const query = {
+    name: {
+      // Allow partial matches
+      $regex : new RegExp('^' + searchText + '.*', 'i') ,
+    },
+  }
+  if (type) {
+    Object.assign(query, {
+      type,
+    })
+  }
+  const documents = await Document.find(query, '-docURI')
+
+  ctx.body = documents
 }
 
 export async function remove(ctx) {
   const { id } = ctx.request.query
-
   const documentURI = path.join(config.http.uploads, id)
-  await Document.remove(id)
 
-  fs.unlink(image, function(err) {
-    if (err) return console.error('Error deleting', image)
-    console.info('Deleted', image)
-  })
-
-  ctx.body = { success: true }
+  try {
+    await Document.remove(id)
+    await fs.unlink(documentURI)
+    ctx.body = { success: true }
+  } catch(err) {
+    console.error('Error deleting', documentURI)
+    ctx.body = { success: false }
+  }
 }
 
 export async function upload(ctx) {
-  const docs = []
-
   for (const file of ctx.request.files) {
-    const docURI = await resize(file.path)
-    const doc = new Document({ docURI })
-    await doc.save()
-    docs.push(doc.toJSON())
+    const newName = path.basename(file.path) + path.extname(file.name)
+    const newURI = path.join(config.http.uploads, newName)
+
+    try {
+      await fs.copy(file.path, newURI)
+      const doc = new Document({
+        docURI: newURI,
+        name: file.name,
+        type: file.type,
+      })
+      await doc.save()
+      ctx.status = 201
+    } catch(err) {
+      console.error('Error moving file', documentURI)
+      ctx.body = { success: false }
+      return
+    }
   }
   ctx.status = 201
-  ctx.body = docs
+  ctx.body = { success: true }
 }
