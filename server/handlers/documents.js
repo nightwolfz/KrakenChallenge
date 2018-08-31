@@ -2,7 +2,15 @@
 
 export async function list(ctx) {
   const { id } = ctx.request.query
-  ctx.body = { id }
+  ctx.body = [{
+    id: Math.random()*1000|0,
+    name: 'DocName',
+    timestamp: new Date()
+  }, {
+    id: Math.random()*1000|0,
+    name: 'DocName2',
+    timestamp: new Date()
+  }]
 }
 
 export async function remove(ctx) {

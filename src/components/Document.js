@@ -8,11 +8,12 @@ class Document extends Component {
   }
 
   render() {
+    const {data} = this.props
     return (
       <div className="document-item mr-2 mb-2">
-        {SvgDocumentIcon}
+        <SvgDocumentIcon/>
         <br/>
-        <b>Document</b>
+        <b>{data.name}</b>
       </div>
     )
   }
@@ -20,7 +21,7 @@ class Document extends Component {
 
 export default Document
 
-const SvgDocumentIcon = (
+const SvgDocumentIcon = () => (
   <svg enableBackground="new 0 0 32 32" version="1.1" viewBox="0 0 32 32" style={{
     height: 128,
   }}>
