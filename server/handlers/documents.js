@@ -13,6 +13,15 @@ export async function list(ctx) {
   }]
 }
 
+export async function search(ctx) {
+  const { searchText } = ctx.request.query
+  ctx.body = [{
+    id: Math.random()*1000|0,
+    name: searchText,
+    timestamp: new Date()
+  }]
+}
+
 export async function remove(ctx) {
   const { id } = ctx.request.query
   ctx.body = { id }

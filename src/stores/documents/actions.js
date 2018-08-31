@@ -11,6 +11,16 @@ export function documentsList() {
   }
 }
 
+export function documentsSearch(searchText) {
+  return async(dispatch) => {
+    const response = await request.get(`documents/search`, { searchText })
+    dispatch({
+      type: DOCUMENTS_LIST,
+      data: response,
+    })
+  }
+}
+
 export function documentsUpload() {
   return async(dispatch) => {
     const response = await request.post(`documents/upload`)

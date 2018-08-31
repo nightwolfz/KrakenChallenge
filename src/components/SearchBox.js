@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {debounce} from 'lodash'
+import {documentsSearch} from '../stores/documents/actions'
 
 @connect(state => {
   return {}
@@ -12,9 +13,9 @@ class SearchBox extends Component {
   }
 
   debouncedSearch = debounce(e => {
-    const { searchText } = this.state
-    console.log(searchText)
-    //search action
+    const {searchText} = this.state
+    const {dispatch} = this.props
+    dispatch(documentsSearch(searchText))
   }, 800)
 
   onChange = (e) => {
