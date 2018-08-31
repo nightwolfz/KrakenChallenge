@@ -1,4 +1,5 @@
 import config from '../core/config'
+import * as db from '../core/db'
 import http from 'http'
 import Koa from 'koa'
 import mount from 'koa-mount'
@@ -34,6 +35,8 @@ app.use(async(ctx) => {
   ctx.body = indexHTML.replace(/{bundleURL}/g, config.server.bundleURL)
 })
 
-server.listen(config.http.port, () => {
-  console.info('[server] listening to', config.http.port)
+db.connect(() => {
+  server.listen(config.http.port, () => {
+    console.info('[server] listening to', config.http.port)
+  })
 })

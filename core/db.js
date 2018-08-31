@@ -5,8 +5,12 @@ import config from './config'
 // Use native promises
 mongoose.Promise = Promise
 
-// Initialize our database
-mongoose.connect(config.databases.mongo)
+export function connect(callback) {
+  // Initialize our connection
+  return mongoose.connect(config.databases.mongo,  { useNewUrlParser: true })
+    .then(callback)
+    .catch((err) => logger('database:error')(err))
+}
 
 const db = mongoose.connection
 db.on('error', (err) => logger('database:error')(err))
