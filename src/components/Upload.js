@@ -12,6 +12,7 @@ class Upload extends Component {
     uploads: [],
     dragging: false,
     file: null,
+    showSuccess: false,
   }
 
   componentDidMount() {
@@ -54,7 +55,15 @@ class Upload extends Component {
     // Maybe we should support multiple file uploads but seems overkill at this point
     for (let i = 0; i < files.length; i++) {
       console.warn('Uploaded', files[i].type)
-      dispatch(documentsUpload(files[i]))
+      dispatch(documentsUpload(files[i], () => {
+        this.setState({ showSuccess: true })
+        setTimeout(() => {
+          // this.setState({
+          //   active: false,
+          //   showSuccess: false,
+          // })
+        }, 1500)
+      }))
     }
   }
 
@@ -67,6 +76,7 @@ class Upload extends Component {
   }
 
   render() {
+    const {showSuccess} = this.state
     const classModel = classnames('modal', {
       active: this.state.active,
     })
@@ -79,28 +89,39 @@ class Upload extends Component {
           <div className="modal-container">
             <div className="modal-header">
               <a onClick={this.onClick} className="btn btn-clear float-right" aria-label="Close"/>
-              <div className="modal-title h5">Upload</div>
+              {showSuccess ? (
+                <>
+                  <div className="modal-title h5">Document was successfully uploaded!</div>
+                  <p>Congrats, you did it! You should be proud.</p>
+                </>
+              ) : (
+                <>
+                  <div className="modal-title h5">Upload Document</div>
+                  You can also drag & drop the document onto the box below
+                </>
+              )}
             </div>
             <div className="modal-body">
               <div className="content">
-                <div className={classnames('dropzone', this.state.dragging ? 'dropzone-dragging' : '')}>
-                  <h2 className="no-events">Drag & Drop</h2>
+                {showSuccess ? null : (
+                  <div className={classnames('dropzone', !this.state.dragging ? 'dropzone-dragging' : '')}>
+                    <IconUpload className="no-events"/>
 
-                  <IconUpload className="no-events"/>
-
-                  {this.state.uploads.map(item => (
-                    <div>
-                      <span>{item.progress} Uploading ...</span>
+                    {this.state.uploads.map(item => (
+                      <div>
+                        <span>{item.progress} Uploading ...</span>
+                      </div>
+                    ))}
+                    <br/> {/* don't judge me, time is of the essence */}
+                    <br/>
+                    <div className="mt-3">
+                      <label className="button">
+                        <input type="file" className="hidden" onChange={this.handleSelect}/>
+                        Select File
+                      </label>
                     </div>
-                  ))}
-
-                  <div className="mt-3">
-                    <label className="button">
-                      <input type="file" className="hidden" onChange={this.handleSelect}/>
-                      Upload
-                    </label>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

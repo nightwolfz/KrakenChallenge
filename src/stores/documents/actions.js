@@ -21,7 +21,7 @@ export function documentsSearch(searchText) {
   }
 }
 
-export function documentsUpload(file) {
+export function documentsUpload(file, callback = function() {}) {
   return async(dispatch) => {
     try {
       const response = await request.upload(`documents/upload`, file)
@@ -29,6 +29,7 @@ export function documentsUpload(file) {
         type: DOCUMENTS_ADD,
         data: JSON.parse(response),
       })
+      callback()
     } catch(err) {
       console.error(err)
     }

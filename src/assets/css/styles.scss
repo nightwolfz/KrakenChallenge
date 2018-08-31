@@ -35,14 +35,14 @@ h1, h2, h3, h4, h5, h6 { color: #fff; }
   }
 }
 
-button, input, optgroup, select, textarea {
+button, .button, input, optgroup, select, textarea {
   color: inherit;
   font: inherit;
   letter-spacing: 0.4px;
   margin: 0;
 }
 
-button {
+button, .button {
   margin: 0;
   padding: 0.4rem 0.8rem;
   line-height: 0.8rem;
@@ -160,11 +160,33 @@ h1 {
   }
   .modal-container {
     color: #333;
+    .modal-body {
+      overflow-y: hidden;
+      .content {
+        color: #333;
+      }
+    }
   }
 }
 
 .hidden {
   display: none;
+}
+
+.dropzone {
+  background: #fafafa;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  border: 2px solid transparent;
+  box-shadow: 0 0 3px #000;
+
+  h2 { margin-top: 1rem; font-size: 2rem; }
+  img { margin: 0 auto; }
+}
+.dropzone-dragging {
+  border: 2px solid #f7f7f7;
+  background: #cdedfa;
 }
 
 $button-ask-bg: #247c32;
