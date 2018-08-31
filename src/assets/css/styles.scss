@@ -106,12 +106,21 @@ hr {
   border-radius: 2px;
 }
 
-.searchbox input {
-  width: 100%;
-  background: rgba(13,14,14,.8);
-  border: 1px solid #464646;
-  padding: .6em 1em;
-  -webkit-appearance: textfield;
+
+.searchbox {
+  position: relative;
+  input {
+    width: 100%;
+    background: rgba(13,14,14,.8);
+    border: 1px solid #464646;
+    padding: .4rem .8rem .4rem 1.6rem;
+    -webkit-appearance: textfield;
+  }
+  .icon-search {
+    position: absolute;
+    top: .54rem;
+    left: .6rem;
+  }
 }
 
 h1 {
@@ -122,8 +131,37 @@ h1 {
   width: 100%;
 }
 
-.price-ask { color: #2da23c; }
-.price-bid { color: #ff5876; }
+.document-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  .document-item {
+    padding: .5rem;
+    display: flex;
+    flex-flow: column;
+    min-width: 4rem;
+    min-height: 3rem;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 1.2em;
+    transition: transform .2s ease-out;
+    cursor: pointer;
+
+    &:focus, &:hover {
+      transform: scale(1.03);
+    }
+  }
+}
+
+.modal.active {
+  .modal-overlay {
+    background: rgba(2, 15, 27, 0.88);
+  }
+  .modal-container {
+    color: #333;
+  }
+}
 
 $button-ask-bg: #247c32;
 $button-ask-bg-hover: lighten($button-ask-bg, 10%);

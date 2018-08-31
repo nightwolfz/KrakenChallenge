@@ -1,5 +1,6 @@
 /* --- CSS framework --- */
 @import "spectre.css";
+@import "spectre-icons.css";
 
 /* --- Custom styles --- */
 @import "styles.scss";

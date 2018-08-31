@@ -9,9 +9,7 @@ class Document extends Component {
 
   render() {
     return (
-      <div className="mr-2 mb-2" style={{
-        float: 'left',
-      }}>
+      <div className="document-item mr-2 mb-2">
         {SvgDocumentIcon}
         <br/>
         <b>Document</b>

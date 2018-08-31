@@ -10,7 +10,7 @@ class DocumentList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="document-list">
         <h1>DocumentList</h1>
         {range(0, 10).map(item => (
           <Document key={item}/>
