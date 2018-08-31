@@ -3,10 +3,6 @@ import {Route, Switch} from 'react-router-dom'
 import App from '../App'
 import Home from '../Home'
 
-//@TODO
-//import Header from './Header'
-//import Footer from './Footer'
-
 class Index extends Component {
   render() {
     return (
