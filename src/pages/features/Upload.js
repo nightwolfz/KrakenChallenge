@@ -25,7 +25,7 @@ class Upload extends Component {
 
     return (
       <div>
-        <a onClick={this.onClick} aria-label="Upload">Upload</a>
+        <button onClick={this.onClick} aria-label="Upload">Upload</button>
         <div className={classModel}>
           <a onClick={this.onClick} className="modal-overlay" aria-label="Close"/>
           <div className="modal-container">
