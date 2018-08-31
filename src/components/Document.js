@@ -48,7 +48,7 @@ class Document extends Component {
               <div className="modal-title h5">Do you want to delete this document?</div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary" onClick={this.onDelete}>Delete</button>
+              <button className="btn btn-primary button" onClick={this.onDelete}>Delete</button>
               <a className="btn btn-link" onClick={this.onClick}>Close</a>
             </div>
           </div>

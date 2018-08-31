@@ -1,5 +1,6 @@
 import {map, sum} from 'lodash'
 
-export function getDocumentById(state, id) {
-  return {}
+// Unused
+export function getDocuments(state) {
+  return state.documents.items
 }
