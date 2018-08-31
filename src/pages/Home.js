@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import DocumentList from '../components/DocumentList'
 
 @connect(state => {
   return {}
@@ -7,12 +8,9 @@ import {connect} from 'react-redux'
 class Home extends Component {
   render() {
     return (
-      <div>
-        <div className="columns">
-          <div className="column">
-          </div>
-          <div className="column">
-          </div>
+      <div className="columns mt-2">
+        <div className="column">
+          <DocumentList/>
         </div>
       </div>
     )
