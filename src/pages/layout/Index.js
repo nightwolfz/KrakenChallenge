@@ -5,6 +5,7 @@ import Home from '../Home'
 
 class Index extends Component {
   render() {
+    // We don't actually need a router here, let's say it's "future proofed" hehe
     return (
       <div style={{ marginTop: '0.4rem' }}>
         <App>

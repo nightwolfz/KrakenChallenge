@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
+import dateformat from 'dateformat-light'
 import {documentsRemove} from '../stores/documents/actions'
 
 @connect()
@@ -35,7 +36,7 @@ class Document extends Component {
 
     return (
       <>
-        <div className="document-item mr-2 mb-2" onClick={this.onClick}>
+        <div className="document-item" onClick={this.onClick}>
           <SvgDocumentIcon/>
           <br/>
           <b>{data.name}</b>
@@ -46,6 +47,11 @@ class Document extends Component {
             <div className="modal-header">
               <a onClick={this.onClick} className="btn btn-clear float-right" aria-label="Close"/>
               <div className="modal-title h5">Do you want to delete this document?</div>
+            </div>
+            <div className="modal-body">
+              <p>Name: <b>{data.name}</b></p>
+              <p>Type: <b>{data.type}</b></p>
+              <p>Uploaded on <b>{dateformat(data.uploadedAt, 'dd/mm HH:MM')}</b></p>
             </div>
             <div className="modal-footer">
               <button className="btn btn-primary button" onClick={this.onDelete}>Delete</button>

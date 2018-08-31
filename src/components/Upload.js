@@ -93,13 +93,13 @@ class Upload extends Component {
               <a onClick={this.onClick} className="btn btn-clear float-right" aria-label="Close"/>
               {showSuccess ? (
                 <>
-                  <div className="modal-title h5">Document was successfully uploaded!</div>
+                  <div className="modal-title h2">Document was successfully uploaded!</div>
                   <p>Congrats, you did it! You should be proud.</p>
                 </>
               ) : (
                 <>
-                  <div className="modal-title h5">Upload Document</div>
-                  You can also drag & drop the document onto the box below
+                  <div className="modal-title h2">Upload Document</div>
+                  You can also <b>drag & drop</b> the document onto the box below
                 </>
               )}
             </div>

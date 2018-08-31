@@ -134,7 +134,7 @@ h1 {
 .document-list {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  justify-content: flex-start;
 
   .document-item {
     padding: .5rem;
@@ -142,7 +142,6 @@ h1 {
     flex-flow: column;
     min-width: 4rem;
     min-height: 3rem;
-    margin: 0 auto;
     color: #fff;
     font-size: 1.2em;
     transition: transform .2s ease-out;
@@ -196,10 +195,25 @@ h1 {
 
   h2 { margin-top: 1rem; font-size: 2rem; }
   img { margin: 0 auto; }
+  .button {
+    color: #fff;
+    background: #1f86e8;
+    border-color: #1f86e8;
+    &:hover {
+      color: #fff;
+      background: #1e6ec8;
+      border-color: #1c59ad;
+    }
+  }
 }
+
 .dropzone-dragging {
   border: 2px solid #f7f7f7;
   background: #cdedfa;
+}
+
+.navbar {
+  margin: 0 0.4rem;
 }
 
 $button-ask-bg: #247c32;
@@ -208,59 +222,6 @@ $button-bid-bg: #ac0a29;
 $button-bid-bg-hover: lighten($button-bid-bg, 12%);
 $button-pause-bg: #a37c1b;
 $button-pause-bg-hover: lighten($button-pause-bg, 12%);
-
-.button-ask {
-  color: #fff;
-  background: $button-ask-bg;
-  border-color: $button-ask-bg;
-  width: 100%;
-  &:hover {
-    color: #fff;
-    background: $button-ask-bg-hover;
-    border-color: $button-ask-bg-hover;
-  }
-}
-
-.button-bid {
-  color: #fff;
-  background: $button-bid-bg;
-  border-color: $button-bid-bg;
-  width: 100%;
-  &:hover {
-    color: #fff;
-    background: $button-bid-bg-hover;
-    border-color: $button-bid-bg-hover;
-  }
-}
-
-.button-pause {
-  color: #fff;
-  background: $button-pause-bg;
-  border-color: $button-pause-bg;
-  width: 100%;
-  &:hover {
-    color: #fff;
-    background: $button-pause-bg-hover;
-    border-color: $button-pause-bg-hover;
-  }
-}
-
-.button-close {
-  color: #fff;
-  background: $button-bid-bg;
-  border-color: $button-bid-bg;
-  display: inline-block;
-  line-height: 0.7rem;
-  padding: 0rem 0.2rem;
-  margin-bottom: 5px;
-  border-radius: 1px;
-  box-shadow: 0 0 3px #000;
-  &:hover {
-    color: #fff;
-    background: $button-bid-bg-hover;
-    border-color: $button-bid-bg-hover;
-  }
-}
 
 .button-small {
   height: 1.4rem;
@@ -300,43 +261,6 @@ table {
     font-weight: normal;
     text-align: left;
   }
-}
-
-.orderflow {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 40vh;
-  width: 100%;
-  font-family: Open Sans,monospace;
-  font-size: 11px;
-}
-.counter-wrapper {
-  overflow: hidden;
-  height: 30vh;
-  width: 100%;
-  font-family: Open Sans,monospace;
-  font-size: 11px;
-}
-.volume-wrapper {
-  overflow: hidden;
-  width: 100%;
-  font-size: 11px;
-}
-.settings-wrapper {
-  overflow: hidden;
-  width: 100%;
-}
-.quotes-logging {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 4rem;
-  width: 100%;
-}
-.debug-logging {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 12rem;
-  width: 100%;
 }
 
 div::-webkit-scrollbar-track {
