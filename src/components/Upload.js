@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames'
+import eachOfSeries from 'async/eachOfSeries'
+import asyncMap from 'async/map'
 import IconUpload from './icons/IconUpload'
 import {documentsUpload} from '../stores/documents/actions'
 
@@ -9,10 +11,9 @@ class Upload extends Component {
 
   state = {
     active: false,
-    uploads: [],
     dragging: false,
-    file: null,
-    showSuccess: false,
+    files: [],
+    uploads: [],
   }
 
   componentDidMount() {
@@ -51,79 +52,78 @@ class Upload extends Component {
 
   onUpload = async(files) => {
     const {dispatch} = this.props
+    const {files: uploaded} = this.state
 
-    // Maybe we should support multiple file uploads but seems overkill at this point
-    for (let i = 0; i < files.length; i++) {
-      console.warn('Uploaded', files[i].type)
-      dispatch(documentsUpload(files[i], () => {
-        this.setState({ showSuccess: true })
-        setTimeout(() => {
-          this.setState({
-            active: false,
-            showSuccess: false,
-            uploads: [],
-            file: null,
-          })
-        }, 1500)
+    // Support multiple file uploads
+    asyncMap(files, (file, next) => {
+      dispatch(documentsUpload(file, () => {
+        next(null, file.name)
       }))
-    }
+    }, (err, results) => {
+      if (err) {
+        // Needs proper error handling, eventually...
+        console.warn('Something went wrong while uploading:', err)
+      }
+      this.setState({
+        files: [...uploaded, ...results],
+      })
+    })
   }
 
-  onClick = () => {
+  handleClose = () => {
     this.setState(state => {
       return {
-        active: !state.active
+        active: !state.active,
+        uploads: [],
+        files: [],
       }
     })
   }
 
   render() {
-    const {showSuccess} = this.state
     const classModel = classnames('modal', {
       active: this.state.active,
     })
-
     return (
       <>
-        <button onClick={this.onClick} aria-label="Upload">Upload</button>
+        <button onClick={this.handleClose} aria-label="Upload">Upload</button>
         <div className={classModel}>
-          <a onClick={this.onClick} className="modal-overlay" aria-label="Close"/>
+          <a onClick={this.handleClose} className="modal-overlay" aria-label="Close"/>
           <div className="modal-container">
             <div className="modal-header">
-              <a onClick={this.onClick} className="btn btn-clear float-right" aria-label="Close"/>
-              {showSuccess ? (
-                <>
-                  <div className="modal-title h2">Document was successfully uploaded!</div>
-                  <p>Congrats, you did it! You should be proud.</p>
-                </>
-              ) : (
-                <>
-                  <div className="modal-title h2">Upload Document</div>
-                  You can also <b>drag & drop</b> the document onto the box below
-                </>
-              )}
+              <a onClick={this.handleClose} className="btn btn-clear float-right" aria-label="Close"/>
+              <div className="modal-title h2">Upload Document</div>
+              <p>
+                You can also <b>drag & drop</b> the documents onto the box below.<br/>
+                Also supports <b>multiple</b> uploads, just drop a bunch of them here.
+              </p>
             </div>
             <div className="modal-body">
               <div className="content">
-                {showSuccess ? null : (
-                  <div className={classnames('dropzone', !this.state.dragging ? 'dropzone-dragging' : '')}>
-                    <IconUpload className="no-events"/>
+                <div className={classnames('dropzone', !this.state.dragging ? 'dropzone-dragging' : '')}>
+                  <IconUpload className="no-events"/>
 
-                    {this.state.uploads.map(item => (
-                      <div>
-                        <span>{item.progress} Uploading ...</span>
-                      </div>
-                    ))}
-                    <br/> {/* don't judge me, time is of the essence */}
-                    <br/>
-                    <div className="mt-3">
-                      <label className="button">
-                        <input type="file" className="hidden" onChange={this.handleSelect}/>
-                        Select File
-                      </label>
+                  {this.state.files.map(name => (
+                    <div className="uploaded" key={name}>
+                      <span><b>{name}</b> uploaded</span>
                     </div>
+                  ))}
+
+                  {/* @TODO: Add realtime progress if there's time */}
+                  {this.state.uploads.map(item => (
+                    <div key={item.name}>
+                      <span>{item.progress} uploading ...</span>
+                    </div>
+                  ))}
+                  <br/> {/* don't judge me, time is of the essence */}
+                  <br/>
+                  <div className="mt-3">
+                    <label className="button">
+                      <input type="file" className="hidden" onChange={this.handleSelect}/>
+                      Select File
+                    </label>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>

@@ -7,9 +7,13 @@ import Document from '../models/Document'
 
 export async function list(ctx) {
   const { id } = ctx.request.query
-  const documents = await Document.find({})
-
-  ctx.body = documents
+  try {
+    const documents = await Document.find({})
+    ctx.body = documents
+  } catch(err) {
+    console.error(err)
+    ctx.body = []
+  }
 }
 
 export async function search(ctx) {
