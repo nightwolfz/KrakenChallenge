@@ -23,6 +23,6 @@ export default {
     expires: 31 * 24 * 3600 // 1 month
   },
   databases: {
-    mongo: 'mongodb://127.0.0.1:27017/krakenChallenge'
+    mongo: 'mongodb://mongo:27017/krakenChallenge'
   },
 }

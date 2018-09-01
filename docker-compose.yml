@@ -1,6 +1,32 @@
 version: '3'
 services:
+  node:
+    build:
+      context: .
+    image: "node:9"
+    container_name: app
+    environment:
+    - NODE_ENV=development
+    - DEBUG=database:*
+    ports:
+    - "3000:3000"
+    - "3001:3001"
+    command:
+      "npm start"
+    volumes:
+    - .:/opt/app:delegated
+    # bind-mounting these two files in will let you add packages during development without rebuilding
+    - ./package.json:/opt/package.json
+    # this is a workaround to prevent host node_modules from accidently getting mounted in container
+    # in case you want to use node/npm both outside container for test/lint etc.
+    - notused:/opt/app/node_modules
+    links:
+      - mongodb
   mongodb:
+    container_name: mongo
     image: "mongo"
     ports:
      - "27017:27017"
+
+volumes:
+  notused:
